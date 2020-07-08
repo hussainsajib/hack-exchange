@@ -2,9 +2,26 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 100px;
-    border: 1px solid black;
-    padding: 50px 10px;
+    margin-top: 300px;
+    padding: 50px 30px;
+    box-shadow: 0px 0px 8px 10px #888888;
+}
+
+.headingContainer {
+    background-image: url("../../images/heading.jpeg");
+    height: 200px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.headingContainer h1 {
+    color: white;
+    background-color: black;
 }
 
 .convertedValue {
