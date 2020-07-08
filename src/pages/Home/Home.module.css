@@ -1,0 +1,10 @@
+.mainContainer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 100px;
+}
+
+.convertedValue {
+    font-size: 4em;
+}

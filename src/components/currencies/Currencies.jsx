@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Form } from "react-bootstrap";
-import axios from "axios";
 
 export default class Currencies extends Component {
     constructor(props) {
@@ -15,10 +14,13 @@ export default class Currencies extends Component {
         return (
             <Form.Group controlId="exampleForm.ControlSelect2">
                 <Form.Label>{this.props.param}</Form.Label>
-                <Form.Control as="select">
+                <Form.Control as="select" defaultValue={this.props.default}>
                     {this.props.currencies.map((item) => (
-                        <option value={item[0]} key={item[0]}>
-                            {item[0]} - {item[1]}
+                        <option
+                            value={item.currencyName}
+                            key={item.currencyName}
+                        >
+                            {item.id} - {item.currencyName}
                         </option>
                     ))}
                 </Form.Control>
