@@ -129,7 +129,7 @@ export default class Home extends Component {
                         <MoneyInput
                             param="Base Currency"
                             value={parseFloat(this.state.baseValue).toFixed(4)}
-                            onChange={this.handleBaseValueChange}
+                            onChange={this.handleBaseValueChange.bind(this)}
                         />
                     </div>
                     <p className={S.convertedValue}>
@@ -147,7 +147,7 @@ export default class Home extends Component {
                             value={parseFloat(
                                 this.state.convertedValue
                             ).toFixed(4)}
-                            onChange={this.handleQuoteValueChange}
+                            onChange={this.handleQuoteValueChange.bind(this)}
                         />
                     </div>
                 </div>
