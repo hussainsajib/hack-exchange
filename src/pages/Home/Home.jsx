@@ -31,7 +31,15 @@ export default class Home extends Component {
             )
             .then((res) => {
                 this.setState(
-                    { allCurrencies: Object.values(res.data.results) },
+                    {
+                        allCurrencies: Object.values(res.data.results).sort(
+                            (item1, item2) => {
+                                if (item1.id > item2.id) return 1;
+                                if (item1.id < item2.id) return -1;
+                                return 0;
+                            }
+                        ),
+                    },
                     () => console.log(this.state.allCurrencies)
                 );
             })
