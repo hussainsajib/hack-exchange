@@ -8,18 +8,24 @@ export default class Currencies extends Component {
         this.state = {
             allCurrencies: [],
         };
+        this.handleChange = this.handleChange.bind(this);
+    }
+
+    handleChange(e) {
+        this.props.onSelect(e.target.value);
     }
 
     render() {
         return (
             <Form.Group controlId="exampleForm.ControlSelect2">
                 <Form.Label>{this.props.param}</Form.Label>
-                <Form.Control as="select" defaultValue={this.props.default}>
+                <Form.Control
+                    as="select"
+                    defaultValue={this.props.default}
+                    onChange={this.handleChange}
+                >
                     {this.props.currencies.map((item) => (
-                        <option
-                            value={item.currencyName}
-                            key={item.currencyName}
-                        >
+                        <option value={item.id} key={item.currencyName}>
                             {item.id} - {item.currencyName}
                         </option>
                     ))}

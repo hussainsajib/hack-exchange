@@ -17,6 +17,8 @@ export default class Home extends Component {
             baseValue: 1,
         };
         this.getCurrencies = this.getCurrencies.bind(this);
+        this.handleBaseChange = this.handleBaseChange.bind(this);
+        this.handleQuoteChange = this.handleQuoteChange.bind(this);
     }
 
     getCurrencies() {
@@ -52,6 +54,20 @@ export default class Home extends Component {
         this.convertFX();
     }
 
+    handleBaseChange(newBaseCurrency) {
+        this.setState({ baseCurrency: newBaseCurrency }, () => {
+            this.convertFX();
+            console.log(this.state.baseCurrency);
+        });
+    }
+
+    handleQuoteChange(newQuoteCurrency) {
+        this.setState({ quoteCurrency: newQuoteCurrency }, () => {
+            this.convertFX();
+            console.log(this.state.quoteCurrency);
+        });
+    }
+
     render() {
         return (
             <div>
@@ -62,17 +78,21 @@ export default class Home extends Component {
                             currencies={this.state.allCurrencies}
                             param="Base Currency"
                             default={this.state.baseCurrency}
+                            onSelect={this.handleBaseChange}
                         />
                         <MoneyInput param="Base Currency" value="1" />
                     </div>
-                    <p className={S.convertedValue}>{this.convertedValue}</p>
                     <div>
                         <Currencies
                             currencies={this.state.allCurrencies}
                             param="Quote Currency"
                             default={this.state.quoteCurrency}
+                            onSelect={this.handleQuoteChange}
                         />
-                        <MoneyInput param="Quote Currency" />
+                        <MoneyInput
+                            param="Quote Currency"
+                            value={this.state.convertedValue}
+                        />
                     </div>
                 </div>
             </div>
