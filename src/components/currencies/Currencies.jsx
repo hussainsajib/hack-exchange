@@ -21,7 +21,7 @@ export default class Currencies extends Component {
                 <Form.Label>{this.props.param}</Form.Label>
                 <Form.Control
                     as="select"
-                    defaultValue={this.props.default}
+                    value={this.props.default}
                     onChange={this.handleChange}
                 >
                     {this.props.currencies.map((item) => (

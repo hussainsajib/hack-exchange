@@ -82,6 +82,9 @@ export default class Home extends Component {
                         />
                         <MoneyInput param="Base Currency" value="1" />
                     </div>
+                    <p className={S.convertedValue}>
+                        {this.state.convertedValue.toFixed(4)}
+                    </p>
                     <div>
                         <Currencies
                             currencies={this.state.allCurrencies}
@@ -91,7 +94,7 @@ export default class Home extends Component {
                         />
                         <MoneyInput
                             param="Quote Currency"
-                            value={this.state.convertedValue}
+                            value={this.state.convertedValue.toFixed(4)}
                         />
                     </div>
                 </div>
