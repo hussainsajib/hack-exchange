@@ -15,16 +15,19 @@ export default class Home extends Component {
             quoteCurrency: "USD",
             convertedValue: 1,
             baseValue: 1,
+            conversionRate: "",
         };
         this.getCurrencies = this.getCurrencies.bind(this);
         this.handleBaseChange = this.handleBaseChange.bind(this);
         this.handleQuoteChange = this.handleQuoteChange.bind(this);
+        this.handleBaseValueChange = this.handleBaseValueChange.bind(this);
+        this.handleQuoteValueChange = this.handleQuoteValueChange.bind(this);
     }
 
     getCurrencies() {
         axios
             .get(
-                `https://free.currconv.com/api/v7/currencies?apiKey=${process.env.REACT_APP_OPENEXCHANGE_APP_ID}`
+                `https://api.currconv.com/api/v7/currencies?apiKey=${process.env.REACT_APP_OPENEXCHANGE_APP_ID}`
             )
             .then((res) => {
                 this.setState(
@@ -38,12 +41,16 @@ export default class Home extends Component {
     convertFX() {
         axios
             .get(
-                `https://free.currconv.com/api/v7/convert?q=${this.state.baseCurrency}_${this.state.quoteCurrency}&compact=ultra&apiKey=${process.env.REACT_APP_OPENEXCHANGE_APP_ID}`
+                `https://api.currconv.com/api/v7/convert?q=${this.state.baseCurrency}_${this.state.quoteCurrency}&compact=ultra&apiKey=${process.env.REACT_APP_OPENEXCHANGE_APP_ID}`
             )
             .then((res) =>
                 this.setState(
-                    { convertedValue: Object.values(res.data)[0] },
-                    () => console.log(this.state.convertedValue)
+                    {
+                        conversionRate: Object.values(res.data)[0],
+                        convertedValue:
+                            this.state.baseValue * Object.values(res.data)[0],
+                    },
+                    () => console.log(this.state.conversionRate)
                 )
             )
             .catch((err) => console.error(err));
@@ -68,6 +75,35 @@ export default class Home extends Component {
         });
     }
 
+    handleBaseValueChange(newValue) {
+        this.setState(
+            {
+                baseValue: newValue,
+                convertedValue: newValue * this.state.conversionRate,
+            },
+            () => {
+                console.log("Base value changed");
+                console.log("basevalue", this.state.baseValue);
+                console.log("converted value", this.state.convertedValue);
+                console.log("conversion rate: ", this.state.conversionRate);
+            }
+        );
+    }
+
+    handleQuoteValueChange(newValue) {
+        this.setState(
+            {
+                convertedValue: newValue,
+                baseValue: newValue / this.state.conversionRate,
+            },
+            () => {
+                console.log("basevalue", this.state.baseValue);
+                console.log("converted value", this.state.convertedValue);
+                console.log("conversion rate: ", this.state.conversionRate);
+            }
+        );
+    }
+
     render() {
         return (
             <div>
@@ -80,10 +116,14 @@ export default class Home extends Component {
                             default={this.state.baseCurrency}
                             onSelect={this.handleBaseChange}
                         />
-                        <MoneyInput param="Base Currency" value="1" />
+                        <MoneyInput
+                            param="Base Currency"
+                            value={parseFloat(this.state.baseValue).toFixed(4)}
+                            onChange={this.handleBaseValueChange}
+                        />
                     </div>
                     <p className={S.convertedValue}>
-                        {this.state.convertedValue.toFixed(4)}
+                        {parseFloat(this.state.convertedValue).toFixed(4)}
                     </p>
                     <div>
                         <Currencies
@@ -94,7 +134,10 @@ export default class Home extends Component {
                         />
                         <MoneyInput
                             param="Quote Currency"
-                            value={this.state.convertedValue.toFixed(4)}
+                            value={parseFloat(
+                                this.state.convertedValue
+                            ).toFixed(4)}
+                            onChange={this.handleQuoteValueChange}
                         />
                     </div>
                 </div>

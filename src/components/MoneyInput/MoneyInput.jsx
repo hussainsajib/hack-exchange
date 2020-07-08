@@ -4,9 +4,14 @@ import { InputGroup, FormControl } from "react-bootstrap";
 class MoneyInput extends Component {
     constructor(props) {
         super(props);
+        this.handleChange = this.handleChange.bind(this);
     }
 
-    handleChange() {}
+    handleChange(e) {
+        if (e.key === "Enter") {
+            this.props.onChange(e.target.value);
+        }
+    }
     render() {
         return (
             <div>
@@ -21,6 +26,7 @@ class MoneyInput extends Component {
                         aria-label="Currency Value"
                         type="number"
                         aria-describedby="basic-addon1"
+                        onKeyDown={this.handleChange}
                     />
                 </InputGroup>
             </div>
